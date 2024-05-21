@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-lg-6 col-md-6 breadcrumb">
+        <div class="d-flex ml-3 ">
+            <h1>User</h1>
+            <div class="">
+                <ul>
+                    <li><a [routerLink]="['/view/'+routdata.uId]" title="Uesr View">View</a></li>
+                    <li> Images</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 ">
+        <button *ngIf="!showdtlbtn" (click)="onselectdelete()" class="btn btn-default deleteaction ml-auto"
+            style="float: right;">Select</button>
+            <button *ngIf="showdtlbtn" (click)="onselectdelete()" class="btn btn-default deleteaction ml-auto"
+                style="float: right;">Cancel</button>
+        <button *ngIf="showdtlbtn" [disabled]="!deleteitemnamearray.length" (click)="deleteInvoice(deleteConfirmModal)"
+            class="btn btn-danger deleteaction ml-auto" style="float: right;">Delete</button>
+    </div>
+</div>
+
+<div class="separator-breadcrumb border-top"></div>
+<!-- <div style="display:block;"> -->
+<div class="col-md-12">
+    <div class="row">
+        <!-- <button [routerLink]="['/view/'+routdata.uId]" class="btn btn-outline-dark m-1 backbtn"> <i class="i-Arrow-Back-3"></i>
+    Back</button> -->
+        <div gallerize class="row clear gallerize-row">
+            <div *ngFor="let img of imageData" class="gallerize-img-col">
+                <input *ngIf="showdtlbtn" (change)="getdeleteitemvalue($event,img)" type="checkbox" class="custom-check-box">
+                <div class="gallerize-example">
+                    <img class="imgs" [src]="img.img_name_url" alt="img.img_name">
+                </div>
+            </div>
+            <div *ngIf="!imageData.length">
+                <label>Folder Is Empty</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #deleteConfirmModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Images deletion</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p><strong>Are you sure you want to delete <span class="text-primary"></span>selected images?</strong></p>
+
+        <span class="text-danger">This operation can not be undone.</span>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-rounded"
+            (click)="modal.dismiss('cancel')">Cancel</button>
+        <button type="button" ngbAutofocus class="btn btn-danger btn-rounded" (click)="modal.close('Ok')">Ok</button>
+    </div>
+</ng-template>

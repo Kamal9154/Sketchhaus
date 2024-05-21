@@ -1,0 +1,33 @@
+.storage-box{margin-left: -20px;
+    margin-right: -30px;
+    }
+    .cursorPointer{
+        cursor: pointer;
+    }
+    .year-dropdown-w{
+        max-width: 300px;
+    }
+    
+    .user-chart-wrap{
+       margin-top: -10px;
+    }
+    .dropdown-custom-arrow{
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background: #ffffff;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+        background-repeat: no-repeat;
+        background-position-x: calc(100%);
+        background-position-y: 10px;
+        border: 1px solid #dfdfdf;
+        // position: absolute;
+        margin-right: 10px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        float: right;
+        width: 70px;
+        margin-top: -7px;
+    }
+      .card-title{
+        font-weight: 500;
+      }

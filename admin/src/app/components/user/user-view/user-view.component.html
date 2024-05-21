@@ -1,0 +1,333 @@
+<div class="breadcrumb">
+    <h1>User</h1>
+    <ul>
+        <li><a [routerLink]="['/userlist']">List</a></li>
+        <li>Profile</li>
+    </ul>
+</div>
+<div class="separator-breadcrumb border-top"></div>
+<!-- <div style="display:block;"> -->
+<div class="col-md-12">
+    <div class="row">
+        <div class="custom-col-profile col-md-12 col-lg-12">
+            <div class="card">
+                <!-- <h2>Details</h2> -->
+
+                <div class="row m-0">
+                    <div class="user-profile-bg"></div>
+                    <div class="card-body folderdiv user-profile col-md-12">
+                        <div id="imgname" class="user-info">
+                            <img id="avtar" class="profile-picture avatar-lg mb-2" [src]="userData?.profile_img" alt="">
+                            <p id="username" class="m-0 text-24 "> {{userData?.name}}</p>
+                        </div>
+
+                        <div class="user-profile col-md-12 pt-0 ">
+                            <div class="card-body p-0">
+                                <div class="profile-details-wrap">
+
+                                    <div class="profile-details">
+                                        <p class="text-primary mb-1 text-16"><i class="i-Mail text-16 mr-1"></i> Email
+                                        </p>
+                                        <span class="text-14 userdatatext">{{userData?.email}}</span>
+                                    </div>
+                                    <div class="profile-details">
+                                        <p class="text-primary mb-1 text-16"><i class="i-Telephone"></i>Contact
+                                            No.</p>
+                                        <span class="text-14 userdatatext">{{userData?.mobile_number}}</span>
+                                    </div>
+                                    <div class="profile-details">
+                                        <p class="text-primary mb-1 text-16"><i
+                                                class="i-Calendar text-16 mr-1"></i>Registration
+                                            date
+                                        </p>
+                                        <span class="text-14 userdatatext">{{userData?.created_at}}</span>
+                                    </div>
+                                    <div class="profile-details">
+                                        <p class="text-primary mb-1 text-16"><i
+                                                class="i-Statistic text-16 mr-1"></i>Progress
+                                            Status</p>
+                                        <button (click)="open(modalConfirm2)"
+                                            class="userstatusbtn userdatatext badge btn" [ngClass]="{
+                                                'badge-success': userData?.progress_status == '2',
+                                                'badge-warning': userData?.progress_status == '1',
+                                                'badge-danger': userData?.progress_status == '0'
+                                            }">
+                                            {{userData?.progress_status == '1' ? 'Inprogress' :
+                                            userData?.progress_status ==
+                                            '2' ? 'Delivered' : 'Initial'}}
+                                        </button>
+                                    </div>
+                                    <div class="profile-details">
+                                        <p class="text-primary mb-1 text-16"><i class="i-Mail-Outbox text-16 mr-1"></i>
+                                            Send Mail
+                                        </p>
+                                        <button (click)="open(modalConfirm)" class=" userdatatext btn btn-warning"><i
+                                                class="i-Mail-Outbox text-14"></i> Mail</button>
+                                    </div>
+                                    <div class="profile-details">
+                                        <p class="text-primary mb-1 text-16"><i class="i-Bell text-16 mr-1"></i> Send
+                                            Notification
+                                        </p>
+                                        <button (click)="notificationpopup(modalConfirm3)"
+                                            class="userdatatext btn btn-info"><i
+                                                class="i-Bell text-14"></i>Notification</button>
+                                    </div>
+
+                                    <div class="profile-details">
+                                        <p class="text-primary mb-1 text-16"><i class="i-Mail text-16 mr-1"></i> Device
+                                            Token
+                                        </p>
+                                        <span class="text-14 userdatatext">{{userData?.device_token ?
+                                            userData?.device_token : '-'}}</span>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="custom-col-details  col-md-12 col-lg-12 mb-3">
+            <div class="row">
+                <div class="col-md-6 ">
+                    <h2 class="mt-5">Folders</h2>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button *ngIf="showdltbtn" [disabled]="!deletefolderarray?.length"
+                        (click)="deleteInvoice(deleteConfirmModal)"
+                        class="btn btn-danger deleteaction ml-auto mt-5">Delete</button>
+                    <button *ngIf="!showdltbtn" (click)="onselectdelete()"
+                        class="btn btn-default deleteaction ml-auto mt-5"> Select </button>
+                    <button *ngIf="showdltbtn" (click)="onselectdelete()"
+                        class="btn btn-default deleteaction ml-auto mt-5"> Cancel </button>
+                </div>
+            </div>
+            <div class="col-lg-12 p-0">
+                <div class="card">
+                    <div class="row m-0">
+                        <div class="col folder-col" *ngFor="let data of userfolder">
+                            <div class="folderdiv card-icon mt-3 mb-3">
+                                <div class="card-body text-center">
+                                    <i [routerLink]="['/view-image']" [queryParams]="{ uId:id , fId:data.folder_id }"
+                                        class="i-Folder foldericon"></i>
+                                    <input *ngIf="showdltbtn" (change)="getdeletefoldervalue($event,data)"
+                                        type="checkbox" style="float: right;">
+                                </div>
+                                <p class="text-muted text-12 "> ({{data?.img_count}}) {{data.folder_name}}</p>
+                            </div>
+                        </div>
+                        <div class="col folder-col mt-3" *ngIf="!userfolder?.length">
+                            <label>No Folder To Display</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 p-0">
+                <div class="col-md-6 ">
+                    <h2 class="mt-5">3D Video</h2>
+                </div>
+                <div class="card">
+                    <div class="row m-0">
+                        <div class="col folder-col">
+                            <div class="folderdiv card-icon mt-3 mb-3 " *ngIf="userData?.matterport_folder_id">
+                                <div class="donut text-center p-4" *ngIf="!matterportfolder?.folder_name"></div>
+                                <div class="card-body text-center" *ngIf="matterportfolder?.folder_name">
+                                    <i [routerLink]="['/matterport']" [queryParams]="{ uId:id,folder_id:userData?.matterport_folder_id,count:matterportfolder?.video_count}"
+                                        class="i-Folder foldericon"></i>
+                                </div>
+                                <p class="text-muted text-12 " > ({{matterportfolder?.video_count}}) {{matterportfolder?.folder_name}}</p>
+                            </div>
+                            <div class="folderdiv card-icon mt-3 mb-3" *ngIf="!userData?.matterport_folder_id">
+                                <label>No Folder To Display</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 ">
+                    <h2 class="mt-5">Pdf Files</h2>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button *ngIf="showdltbtnpdf" [disabled]="!deletepdfarray?.length"
+                        (click)="deleteInvoice(deleteConfirmModalpdf)"
+                        class="btn btn-danger deleteaction ml-auto mt-5">Delete</button>
+                    <button *ngIf="!showdltbtnpdf" (click)="onselectdeletepdf()"
+                        class="btn btn-default deleteaction ml-auto mt-5"> Select </button>
+                    <button *ngIf="showdltbtnpdf" (click)="onselectdeletepdf()"
+                        class="btn btn-default deleteaction ml-auto mt-5"> Cancel </button>
+                </div>
+            </div>
+            <div class="col-lg-12 p-0">
+                <div class="card">
+                    <div class="row m-0">
+
+                        <div class="col folder-col" *ngFor="let data of userpdf">
+                            <div class="folderdiv card-icon mt-3 mb-3">
+                                <div class="card-body text-center">
+                                    <input *ngIf="showdltbtnpdf" (change)="getdeletepdfvalue($event,data)" type="checkbox"
+                                        class="custom-check-box">
+                                    <a target="_blank" href="{{data.url}}" attributes-list download> <img
+                                            style="height: 50px;" src="../../../../assets/images/pdficon.png" alt="">
+                                    </a>
+                                    <p class="text-muted text-12 "> {{data.name}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col folder-col mt-3" *ngIf="!userpdf?.length">
+                            <label>No Files To Display</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <ng-template #modalConfirm let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">Send Completion Mail</h4>
+                <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+                    (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Are you sure you want to Send a mail ?</strong></p>
+                <p> Upload PDF
+                    <input (change)="upload($event.target.files)" [formControl]="file" type="file">
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-rounded"
+                    (click)="modal.dismiss('cancel')">Cancel</button>
+                <button [disabled]="showbtn" type="button" ngbAutofocus class="btn btn-danger btn-rounded"
+                    (click)="modal.close('Ok');onsend()">Ok</button>
+            </div>
+        </ng-template>
+
+        <ng-template #modalConfirm2 let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">Change Progress Status</h4>
+                <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+                    (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <select (change)="onselect($event)" class="userstatusbtn badge">
+                    <option selected disabled value="">
+                        <div class="">Select</div>
+                    </option>
+                    <option value="0">
+                        <div class="">Initial</div>
+                    </option>
+                    <option value="1">
+                        <div class="">Inprogress</div>
+                    </option>
+                    <option value="2">
+                        <div class="">Delivered</div>
+                    </option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-rounded"
+                    (click)="modal.dismiss('cancel')">Cancel</button>
+                <button [disabled]="progress ? flase : true" ngbAutofocus class="btn btn-danger btn-rounded"
+                    (click)="modal.close('Ok');onsubmit()">Ok</button>
+            </div>
+        </ng-template>
+
+        <ng-template #modalConfirm3 let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">Send Notification To User</h4>
+                <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+                    (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form [formGroup]="notificationFormGroup" class="w-100">
+                        <div class="col-md-12 form-group mb-3">
+                            <label for="firstName">Title</label>
+                            <input maxlength="50" formControlName="msgtitle" type="text" class="form-control form-control-rounded">
+                            <div *ngIf="notificationFormGroup.controls['msgtitle'].errors && (!notificationFormGroup.controls['msgtitle'].pristine || submitted ||notificationFormGroup.controls['msgtitle'].touched )"
+                                class="error-msg">
+                                <div class="text-danger"
+                                    [hidden]="!notificationFormGroup.controls['msgtitle'].invalid">
+                                    Title is
+                                    invalid.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 form-group mb-3">
+                            <label for="lastName">Message body</label>
+                            <textarea maxlength="150" formControlName="msgbody" class="form-control form-control-rounded">
+                        </textarea>
+                            <div *ngIf="notificationFormGroup.controls['msgbody'].errors && (!notificationFormGroup.controls['msgbody'].pristine || submitted ||notificationFormGroup.controls['msgbody'].touched )"
+                                class="error-msg">
+                                <div class="text-danger"
+                                    [hidden]="!notificationFormGroup.controls['msgbody'].invalid">
+                                    Body is
+                                    invalid.</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-rounded"
+                    (click)="modal.dismiss('cancel')">Cancel</button>
+                <button ngbAutofocus class="btn btn-danger btn-rounded" (click)="sendNotification()">Ok</button>
+            </div>
+        </ng-template>
+
+        <ng-template #deleteConfirmModal let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">Folder deletion</h4>
+                <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+                    (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Are you sure you want to delete <span class="text-primary"></span>selected folders?</strong>
+                </p>
+
+                <span class="text-danger">This operation can not be undone.</span>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-rounded"
+                    (click)="modal.dismiss('cancel')">Cancel</button>
+                <button type="button" ngbAutofocus class="btn btn-danger btn-rounded"
+                    (click)="modal.close('Ok')">Ok</button>
+            </div>
+        </ng-template>
+        <ng-template #deleteConfirmModalpdf let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">Folder deletion</h4>
+                <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+                    (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Are you sure you want to delete <span class="text-primary"></span>selected pdf?</strong></p>
+
+                <span class="text-danger">This operation can not be undone.</span>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-rounded"
+                    (click)="modal.dismiss('cancel')">Cancel</button>
+                <button type="button" ngbAutofocus class="btn btn-danger btn-rounded"
+                    (click)="modal.close('Ok')">Ok</button>
+            </div>
+        </ng-template>

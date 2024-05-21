@@ -1,0 +1,230 @@
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="breadcrumb">
+                    <h1>User List</h1>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="profile-details">
+                    <button [ngClass]="{'make-disabled' : !selected?.length}"
+                        (click)="sendNotificationInvoice(modalConfirm3)" class="ml-auto  btn btn-info"> <i
+                            _ngcontent-joj-c166 class="i-Bell text-14"></i> Send Notification </button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="separator-breadcrumb border-top">
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="md-form mt-0">
+                        <input id="search1" placeholder="Search" (keyup)="applyFilter($event.target.value)"
+                            class="form-control fa fa-search">
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                <div class="form-group dropdown-custom-arrow">
+                    <select (change)=statusFilter($event.target.value) class="form-control">
+                        <option selected disabled value="null">Select Status</option>
+                        <option value=''>All</option>
+                        <option value=1>Active</option>
+                        <option value=0>Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                <div class="form-group dropdown-custom-arrow">
+                    <select (change)=progressstatusFilter($event.target.value) class="form-control">
+                        <option selected disabled value="null">Select Progress Status</option>
+                        <option value=''>All</option>
+                        <option value=0>Initial</option>
+                        <option value=1>Inprogress</option>
+                        <option value=2>Delivered</option>
+                    </select>
+                </div>
+            </div>          
+            <div class="col-md-12">
+                <div class="card  o-hidden user-list--dt">
+    
+                    <div class="example-container mat-elevation-z8">
+
+                        <mat-table [dataSource]="dataSource" matSort>
+
+                            <!-- ID Column -->
+                            <ng-container matColumnDef="select">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    <label
+                                        *ngIf="searchfilter?.length == 0 && statusfilter?.length == 0 && progressfilter?.length == 0"
+                                        (click)="selectAllUser()" class="datatable-checkbox">
+                                        <input [class]="filteredUser?.length == selected.length ? '' : 'checkColo'"
+                                            [checked]="allcheck"
+                                            type="checkbox" value="">
+                                        <span style="margin-left: -10px;">All-({{selected.length}})</span>
+                                    </label>
+
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> <label class="datatable-checkbox">
+                                        <input [class]="getChecked(row) ? '' : 'checkColo'" type="checkbox"
+                                            [checked]="getChecked(row)" (click)="assign(row)" />
+                                    </label> </mat-cell>
+                            </ng-container>
+
+                            <!-- Progress Column -->
+                            <ng-container matColumnDef="sno">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> S.No. </mat-header-cell>
+                                <mat-cell *matCellDef="let row;let i=index"> {{i+1}} </mat-cell>
+                            </ng-container>
+
+                            <!-- Image Column -->
+                            <ng-container matColumnDef="image">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Image </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> <img class="sub-image" [src]="row.profile_img" alt="">
+                                </mat-cell>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.first_name +' '+ row.last_name}} </mat-cell>
+                            </ng-container>
+
+                            <!-- Matterport Folder Column -->
+                            <ng-container matColumnDef="matterport_folder_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Matterport Folder </mat-header-cell>
+                                <mat-cell *matCellDef="let row" > {{row.matterport_folder_name ? row.matterport_folder_name : '--'}} </mat-cell>
+                            </ng-container>
+
+                            <!-- Email Column -->
+                            <ng-container matColumnDef="email">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.email}} </mat-cell>
+                            </ng-container>
+                            <!-- status Column -->
+                            <ng-container matColumnDef="status">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> <label class="switch switch-primary mr-3">
+                                        <input type="checkbox" [checked]="row.status == 1">
+                                        <span (click)="changeStatus(row.id, row.status)" class="slider"></span>
+                                    </label> </mat-cell>
+                            </ng-container>
+
+                            <!-- progress status Column -->
+                            <ng-container matColumnDef="progress_status">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Progress Status </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <div style="padding: 6px;padding-top: 8px;" class="badge" [ngClass]="{
+                                    'badge-success': row.progress_status == '2',
+                                    'badge-warning': row.progress_status == '1',
+                                    'badge-danger': row.progress_status == '0'
+                                }">
+                                        {{row.progress_status == '1' ? 'Inprogress' : row.progress_status == '2' ?
+                                        'Delivered' : 'Initial'}}
+                                    </div>
+                                </mat-cell>
+                            </ng-container>
+
+                            <!-- action Column -->
+                            <ng-container matColumnDef="action">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> <button class="btn btn-wide btn-outline-secondary mr-3 viewaction"
+                                    (click)="view(row.id)">View</button>
+                                <button class="btn btn-outline-danger deleteaction"
+                                    (click)="deleteInvoice(deleteConfirmModal,row.id)">Delete</button></mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;">
+                            </mat-row>
+                        </mat-table>
+
+                        <div style="margin-top: 20px; margin-left: 20px;" *ngIf="!filtered.length">No data found</div>
+
+                        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <ng-template #deleteConfirmModal let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">User deletion</h4>
+                <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+                    (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Are you sure you want to delete <span class="text-primary"></span>this
+                        profile?</strong></p>
+
+                <span class="text-danger">This operation can not be undone.</span>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-rounded"
+                    (click)="modal.dismiss('cancel')">Cancel</button>
+                <button type="button" ngbAutofocus class="btn btn-danger btn-rounded"
+                    (click)="modal.close('Ok')">Ok</button>
+            </div>
+        </ng-template>
+        <ng-template #modalConfirm3 let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">Send Notification</h4>
+                <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+                    (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form [formGroup]="notificationFormGroup" class="w-100">
+                        <div class="col-md-12 form-group mb-3">
+                            <label for="firstName">Title</label>
+                            <input maxlength="50" formControlName="msgtitle" type="text" class="form-control form-control-rounded">
+                            <div *ngIf="notificationFormGroup.controls['msgtitle'].errors && (!notificationFormGroup.controls['msgtitle'].pristine || submitted ||notificationFormGroup.controls['msgtitle'].touched )"
+                                class="error-msg">
+                                <div class="text-danger"
+                                    [hidden]="!notificationFormGroup.controls['msgtitle'].invalid">
+                                    Title is
+                                    invalid.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 form-group mb-3">
+                            <label for="lastName">Message body</label>
+                            <textarea maxlength="150" formControlName="msgbody" class="form-control form-control-rounded">
+                            </textarea>
+                            <div *ngIf="notificationFormGroup.controls['msgbody'].errors && (!notificationFormGroup.controls['msgbody'].pristine || submitted ||notificationFormGroup.controls['msgbody'].touched )"
+                                class="error-msg">
+                                <div class="text-danger"
+                                    [hidden]="!notificationFormGroup.controls['msgbody'].invalid">
+                                    Body is
+                                    invalid.</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btn-rounded"
+                    (click)="modal.dismiss('cancel')">Cancel</button>
+                <button ngbAutofocus class="btn btn-danger btn-rounded" (click)="sendNotification()">Ok</button>
+            </div>
+        </ng-template>
+    </div>
+</section>

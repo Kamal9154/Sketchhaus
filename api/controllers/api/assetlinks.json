@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "1111p.11111tyvue",
+      "sha256_cert_fingerprints": [
+        "DD:B3:B1:D5:A1:84:D5:DD:B3:B1:D5:A1:84:D5:B3:94:41:31:D3:E6:B0:E7:8A:9B:75:D6",
+        "53:EF:B5:15:F0:7E:7F:7E:3C:71:FF"
+      ]
+    }
+  }
+]

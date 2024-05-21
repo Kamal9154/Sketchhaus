@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-lg-6 col-md-6 breadcrumb">
+        <div class="d-flex ml-3 ">
+            <h1>User</h1>
+            <div class="">
+                <ul>
+                    <li><a [routerLink]="['/view/'+routdata.uId]" title="Uesr View">View</a></li>
+                    <li> 3D Video</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="separator-breadcrumb border-top"></div>
+
+<div class="col-lg-12 p-0">
+    <div *ngIf="dataNotFound">
+        <label>Folder Is Empty</label>
+    </div>
+    <div *ngIf=" !dataNotFound" class="card">
+        <div class="row m-2">
+            <div class="donut" *ngIf=" !dataNotFound && !userfolder"></div>
+            <div class="col-lg-4" *ngFor="let data of userfolder">
+                <iframe [src]="getSafeUrl(data.id)" width="100%" height="300" allowfullscreen="true" frameborder="0">
+                </iframe>
+            </div>
+        </div>
+    </div>

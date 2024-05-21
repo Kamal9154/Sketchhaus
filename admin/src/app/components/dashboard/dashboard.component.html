@@ -1,0 +1,157 @@
+<div class="">
+    <div class="breadcrumb">
+        <h1>Dashboard</h1>
+    </div>
+
+    <div class="separator-breadcrumb border-top"></div>
+
+    <div class="row">
+        <!-- ICON BG -->
+        <div [routerLink]="['/userlist']" class="dashboard-col col-lg-3">
+            <div class="cursorPointer card card-icon-bg bg-danger-gradient-1 card-icon-bg-primary o-hidden mb-4">
+                <div class="card-body text-center">
+                    <i class="i-Add-User"></i>
+                    <div class="content">
+                        <p class="text-muted mt-2 mb-0">Total Users</p>
+                        <p class="text-primary text-24 line-height-1 mb-2">{{totaldata?.user}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-col col-lg-3">
+            <div class=" card card-icon-bg card-icon-bg-primary bg-danger-gradient-2 o-hidden mb-4">
+                <div class="card-body text-center">
+                    <i class="i-File-Edit"></i>
+                    <div class="content">
+                        <p class="text-muted mt-2 mb-0">Initial State </p>
+                        <p class="text-primary text-24 line-height-1 mb-2">{{totaldata?.initial}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-col col-lg-3">
+            <div class="card card-icon-bg card-icon-bg-primary bg-danger-gradient-3 o-hidden mb-4">
+                <div class="card-body text-center">
+                    <i class="i-Edit-Map"></i>
+                    <div class="content">
+                        <p class="text-muted mt-2 mb-0 storage-box">In-Progress State </p>
+                        <p class="text-primary text-24 line-height-1 mb-2">{{totaldata?.inprogress}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-col col-lg-3">
+            <div class="card card-icon-bg card-icon-bg-primary bg-danger-gradient-4 o-hidden mb-4">
+                <div class="card-body text-center">
+                    <i class="i-Letter-Sent"></i>
+                    <div class="content">
+                        <p class="text-muted mt-2 mb-0">Delivered </p>
+                        <p class="text-primary text-24 line-height-1 mb-2">{{totaldata?.delivered}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="dashboard-col col-lg-3">
+            <div class="card card-icon-bg card-icon-bg-primary bg-danger-gradient-5 o-hidden mb-4">
+                <div class="card-body text-center">
+                    <i class="i-Data-Storage"></i>
+                    <div class="content">
+                        <p class="text-muted mt-2 mb-0 storage-box">Storage Remaining</p>
+                        <p class="text-primary text-24 line-height-1 mb-2 storage-box">10/120 GB</p>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+
+                    <select class="dropdown-custom-arrow form-control year-dropdown-w"
+                        (change)="onyearchangeUser($event)">
+                        <option selected value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+
+                    <div class="card-title">Users</div>
+                    <div *ngIf="totaluser != 0" echarts [options]="salesChartBar" class="user-chart-wrap" [autoResize]="true" style="height: 300px;"></div>
+                    <div *ngIf="totaluser == 0">No data found</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <select class="dropdown-custom-arrow form-control year-dropdown-w" (change)="onyearchangeInitial($event)">
+                        <option selected value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                    <div class="card-title">Initial</div>
+                    <div *ngIf="totalinitialuserchart != 0" echarts [options]="initialChartBar" [autoResize]="true" style="height: 300px;"
+                        class="user-chart-wrap"></div>
+                        <div *ngIf="totalinitialuserchart == 0">No data found</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <select class="dropdown-custom-arrow form-control year-dropdown-w" (change)="onyearchangeInprogress($event)">
+                        <option selected value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                    <div class="card-title">In-Progress</div>
+                    <div *ngIf="totalinprogressuserchart != 0" echarts [options]="inprogressChartBar" [autoResize]="true" style="height: 300px;"
+                        class="user-chart-wrap"></div>
+                        <div *ngIf="totalinprogressuserchart == 0">No data found</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <select class="dropdown-custom-arrow form-control year-dropdown-w" (change)="onyearchangeDelivered($event)">
+                        <option selected value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                    <div class="card-title">Delivered</div>
+                    <div *ngIf="totaldelivereduserchart != 0" echarts [options]="deliveredChartBar" [autoResize]="true" style="height: 300px;"
+                        class="user-chart-wrap">
+                    </div>
+                    <div *ngIf="totaldelivereduserchart == 0">No data found</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-body p-0">
+                    <h5 class="card-title m-0 p-3">Users</h5>
+                    <div echarts [options]="chartLineOption3"></div>
+                </div>
+            </div>
+        </div>
+
+    </div> -->
+</div>

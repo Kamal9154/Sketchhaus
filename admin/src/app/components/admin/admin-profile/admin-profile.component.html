@@ -1,0 +1,132 @@
+<div class="breadcrumb">
+    <h1>User Profile</h1>
+</div>
+
+<div class="separator-breadcrumb border-top"></div>
+
+<div class="card user-profile admin-profile o-hidden mb-4">
+    <div class="header-cover" style="background-image: url('assets/images/photo-wide-4.jpg')"></div>
+    <div class="user-info-profile-wrap">
+        <div class="user-info">
+            <div class="user-info-wrap">
+                <img *ngIf="this.data.image" class="rounded-circle " [src]="this.data.image">
+                <button class="edit-icons" (click)="open(modalCropper)"><svg xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 576 512">
+                        <!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
+                        <path
+                            d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z" />
+                    </svg></button>
+            </div>
+        </div>
+    </div>
+    <!-- <img  class="rounded-circle" *ngIf="data?.image" [src]="data?.image" [width]="cropperSettings.croppedWidth"
+        [height]="cropperSettings.croppedHeight"> -->
+
+    <div class="card-body">
+        <form [formGroup]="formBasic" (ngSubmit)="submit()">
+            <div class="row">
+                <div class="col-md-6 form-group mb-3">
+                    <label for="firstName">First name</label>
+                    <input maxlength="50" type="text" class="form-control form-control-rounded"
+                        formControlName="firstName" placeholder="Enter your first name">
+                    <div *ngIf="formBasic.controls['firstName'].errors && (!formBasic.controls['firstName'].pristine || submitted ||formBasic.controls['firstName'].touched )"
+                        class="error-msg">
+                        <div class="text-danger" [hidden]="!formBasic.controls['firstName'].invalid">
+                            First Name is
+                            invalid, It must be between 2 and 50 characters.</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 form-group mb-3">
+                    <label for="lastName">Last name</label>
+                    <input maxlength="50" type="text" class="form-control form-control-rounded"
+                        formControlName="lastName" placeholder="Enter your last name">
+                    <div *ngIf="formBasic.controls['lastName'].errors && (!formBasic.controls['lastName'].pristine || submitted ||formBasic.controls['lastName'].touched )"
+                        class="error-msg">
+                        <div class="text-danger" [hidden]="!formBasic.controls['lastName'].invalid">
+                            Last Name is
+                            invalid, It must be between 2 and 50 characters.</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 form-group mb-3">
+                    <label>Email address</label>
+                    <input maxlength="100" type="email" class="form-control form-control-rounded"
+                        formControlName="email" aria-describedby="emailHelp" placeholder="Enter email">
+                    <div *ngIf="formBasic.controls['email'].errors && (!formBasic.controls['email'].pristine || submitted ||formBasic.controls['email'].touched )"
+                        class="error-msg">
+                        <div class="text-danger" [hidden]="!formBasic.controls['email'].invalid">
+                            Email is
+                            invalid, It must be between 6 and 100 characters.</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 form-group mb-3">
+
+                    <label>Password</label>
+                    <div style="display: flex;">
+                        <div style="width: 100%;">
+                            <input maxlength="20" autocomplete="new-password" formControlName="password"
+                                [type]="showHidePass? 'password' : 'text'" class="form-control form-control-rounded"
+                                placeholder="Password">
+                        </div>
+
+                        <div style="margin-left: -36px;margin-top: 3px;" (click)="showHidePassword()" id="show">
+                            <img *ngIf="showHidePass" src="../../../../assets/images/eye-slash-fill.svg" alt="">
+                            <img *ngIf="!showHidePass" src="../../../../assets/images/eye-fill.svg" alt="">
+                        </div>
+                    </div>
+                    <div *ngIf="formBasic.controls['password'].errors && (!formBasic.controls['password'].pristine || submitted ||formBasic.controls['password'].touched )"
+                        class="error-msg">
+                        <div class="text-danger" [hidden]="!formBasic.controls['password'].invalid">
+                            Password is
+                            invalid, It must be between 6 and 20 characters.</div>
+                    </div>
+
+                </div>
+                <div class="col-md-12">
+                    <btn-loading btnClass="btn-primary btn-rounded" [loading]="loading">Update</btn-loading>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<ng-template #modalCropper let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Upload & Crop</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');cancel()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <img-cropper [image]="data" (change)="imageCropped1($event)" [settings]="cropperSettings"></img-cropper>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-rounded btn-outline-dark"
+            (click)="modal.close('Save click');saveImage()">Save</button>
+    </div>
+</ng-template>
+<!-- <ng-template #modalCropper let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Upload & Crop</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body text-center image-coropp-popup">
+        <input id="imginput" accept="image/*" (change)="fileChangeEvent($event)" type="file" class="form-control"
+            placeholder="" aria-describedby="button-addon1">
+        <image-cropper style="width: 120px;height: 120px;" [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true" [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)"
+            (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+       
+        <img class="mt-3 mr-3" [src]="croppedImage ? croppedImage :'assets/images/defoult1.png'" [width]="100"
+            [height]="100">
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-rounded btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+</ng-template> -->

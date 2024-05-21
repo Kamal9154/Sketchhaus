@@ -1,0 +1,29 @@
+<div class="main-header">
+    <div class="main-logo logo">
+        <img class="main-logo-image" src="./assets/images/SketchHaus-logo.png" alt="">
+    </div>
+    <div class="menu-toggle" (click)="toggelSidebar()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="d-flex align-items-center">
+        <!-- Mega menu -->
+        <!-- Search bar -->
+    </div>
+    <div style="margin: auto"></div>
+    <div ngbDropdownToggle ngbDropdown [placement]="'bottom-right'" class="cursor header-part-right">
+        <div class="headname">
+            {{data?.first_name}} {{data?.last_name ? data?.last_name : ''}}
+        </div>
+        <div  class="user col align-self-end">
+            <img src="{{data?.profile_img}}" id="userDropdown"  alt="">
+            
+            <div ngbDropdownMenu aria-labelledby="userDropdown" class="header-account-dropdown">
+                
+                <button class="dropdown-item" [routerLink]='["/profile"]'>Profile</button>
+                <button class="dropdown-item" (click)="signout()">Sign out</button>
+            </div>
+        </div>
+    </div>
+</div>
